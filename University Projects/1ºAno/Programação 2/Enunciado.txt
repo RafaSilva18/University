@@ -1,0 +1,93 @@
+Máquina Distribuidora de Produtos
+
+Trabalho Prático de Programação II
+Descrição Geral
+Pretende-se simular a operação de uma máquina distribuidora de produtos, como as que se encontram nos espaços públicos. Em termos gerais, a máquina deverá interagir com o exterior e lidar com:
+
+o pedido de produtos por um utilizador (anónimo), e o seu processamento (pagamento, entrega, troco)
+a gestão do stock de produtos
+Existem dois tipos de máquinas, consoante o tipo de pagamento disponibilizado, a saber pagamento electrónico ou em dinheiro.
+
+Em termos gerais, uma máquina está operacional caso tenha algum produto em stock. As máquinas de pagamento electrónico também precisam de ter ligação à rede para estarem operacionais e as de dinheiro precisam de conseguir dar troco (em moedas) para qualquer pagamento de qualquer produto.
+
+Depois de inserir dinheiro ou cartão, deve ser possível solicitar o produto de um compartimento. E caso a operação seja sucesso, receber o produto. As máquinas de pagamento em dinheiro minimizam o número de moedas que entregam como troco.
+
+Deve ser possível gerir o stock de todas as máquinas. De um modo geral podemos dizer que o stock é uma lista de produtos e cada produto tem uma descrição e um preço unitário. Em cada máquina, os diferentes produtos estão separados em compartimentos, e cada compartimento tem um número (1, 2, ...). Também deve ser possível carregar os compartimentos, indicando a quantidade e o produto.
+
+Interacção
+A interacção com o programa poderá ser através de
+
+linha de comando própria (read-exec-print loop)
+linha de comando Java (String[] args no main)
+Por interface gráfica
+Relativamente o ponto 1, a seguir apresentamos exemplos de interacção de uma máquina de pagamento em dinheiro, em que In representa input do utilizador e Out o output do programa:
+
+Exemplo 1
+Neste exemplo vamos carregar o compartimento 1 da máquina com 10 natas (cada uma custa 70 cêntimos)
+
+0 - Sair
+
+1 - Gestão
+
+2 - Compra
+
+1
+
+0 - Voltar ao menu anterior
+
+1 - Carregamento de stock
+
+2 - Listagem de stock
+
+1
+
+Insira a quantidade, produto, preço unitário e compartimento:
+
+10 Nata 0.7 1
+
+Carregamento com sucesso
+
+0 - Voltar ao menu anterior
+
+1 - Carregamento de stock
+
+2 - Listagem de stock
+
+Exemplo 2
+Neste exemplo vamos comprar uma nata do compartimento 1, usando 2 moedas de 50 cêntimos
+
+0 - Sair
+
+1 - Gestão
+
+2 - Compra
+
+2
+
+Insira o dinheiro:
+
+0.5 0.5
+
+Qual o compartimento?
+
+1
+
+Produto: disponibilizado: Nata
+
+Troco: 0.2 0.1
+
+Condições Gerais
+Grupos de com 1 ou 2 alunos
+Entrega
+2021.01.17
+Moodle com 2 ficheiros
+zip (ou tar.gz) com todo o código fonte Java
+pdf com o relatório
+Discussão
+2010.01.28-29
+Relatório
+Deverá entregar um relatório com o ​ máximo de 3 páginas A4​ , em formato PDF, e no qual aborda as seguintes questões:
+
+● Apreciação das características do Java que empregou para realizar o seu código.
+
+● Limites de funcionamento do programa.

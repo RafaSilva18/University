@@ -1,0 +1,212 @@
+Trabalho feito por :
+Pedro Anjos 45558
+Rafael Silva 45813
+
+Resolução de exercicios
+
+
+1)
+Membro (Nome, IdMemb, Pais, Cidade, DataNasc)
+Chave Candidata: {IdMemb};
+Chave Primária: {IdMemb};
+Chave Estrangeira: {};
+
+
+Amigo (IdMemb, IdMemb2)
+Chave Candidata: {IdMemb, Idmemb2};
+Chave Primária: {IdMemb, Idmemb2};
+Chave Estrangeira: IdMemb da relação Membro;
+
+
+gosta (IdMemb, ISBN)
+Chave Candidata: {IdMemb, ISBN};
+Chave Primária: {IdMemb, ISBN};
+Chave Estrangeira: IdMemb da relação membro; ISBN da relação livro;
+
+
+livro (ISBN, Titulo)
+Chave Candidata: {ISBN};
+Chave primária: {ISBN};
+Chave Estrangeira: {};
+Gereno (ISBN, Genero)
+Chave Candidata: {IISBN, Genero};
+Chave Primária: {ISBN, Genero};
+Chave Estrangeira: ISBN da relação livro;
+
+
+Autoria (ISBN, Coda)
+Chave Candidata: {ISBN, Coda};
+Chave Primária: {ISBN, Coda};
+Chave Estrangeira: ISBN da relação livro; Coda da relação autor;
+
+
+Autor (Coda, Nome, Pais)
+Chave Candidata: {Coda};
+Chave Primária: {Coda};
+Chave Estrangeira: {}
+
+2)
+Create table membro (
+Nome varchar (15),
+IdMemb char (10),
+Pais varchar(10),
+Cidade varchar (15),
+DataNase date,
+primary key (IdMemb) );
+
+
+Create table amigo (
+IdMemb varchar (10),
+IdMemb varchar (10);
+Primary key (IdMemb, IdMemb2);
+Foreign key (IdMemb2) references membro (IdMemb) on delete restrict;
+Create table livro (
+ISBN char (9),
+Titulo varchar (55),
+Primary key (ISBN) );
+
+
+Create table gosta (
+IdMemb char (10),
+ISBN char (9),
+Primary key (IdMemb, ISBN),
+Foreign key (IdMemb) references membro on delete restrict,
+Foreign key (ISBN) references livro on delete restrict);
+
+
+Create table genero (
+ISBN char (15),
+Genero varchar (10),
+Primary key (ISBN, Genero),
+Foreign key (ISBN) references livro on delete restrict);
+Create table autor (
+Coda char (3),
+Nome varchar (15),
+Pais varchar (7),
+Primary key (coda));
+
+
+Create table autoria (
+ISBN char (5),
+Coda char (9),
+Primary key (ISBN, Coda),
+Foreign key (ISBN) references livro on delete restrict,
+Foreign key (Coda) references autor on delete restrict
+
+3)
+a)
+Insert into membro values (‘Rafael’, ‘100’, ‘Portugal’, ‘Setubal’, ‘20000718);
+insert into membro values('Joao','101','Portugal','Setubal','19991126');
+insert into membro values('Andre','102','Portugal','Coimbra','20000819');
+insert into membro values('Manuel','103','Eslováquia','Bratislava','20001023');
+insert into membro values('Raquel','104','Portugal','Setubal','20000905');
+insert into membro values('Marcio','105','Espanha','Madrid','20011126');
+insert into membro values('Pedro','106','Portugal','Setubal','20011014');
+insert into membro values('Marta','107','Portugal','Setubal','19890528');
+insert into membro values('Soraia','108','Portugal','Setubal','19850110');
+insert into membro values('Ines','109','Portugal','Setubal','19930217');
+insert into membro values('Rodrigo','110','Alemanha','Dortmund','20030318');
+insert into membro values('Rodolfo','111','Portugal','Evora','20001126');
+insert into membro values('Sebastiao','112','Portugal','Evora','20000724');
+insert into membro values('Joaquina','113','Portugal','Porto','19990221');
+insert into membro values('Guilherme','114','Portugal','Faro','20000509');
+insert into membro values('Duarte','115','Portugal','Lisboa','20011227');
+insert into membro values('oleitor','116','Portugal','Evora','19990305');
+insert into membro values('Mariana','117','Franca','Paris','20030226');
+insert into membro values('Werner','118','Portugal','Braga','19010515' );
+insert into membro values('Zequinha','119','Portugal','Setubal','19870107');
+
+
+b)
+insert into livro values ('120','memorial do convento');
+insert into livro values ('121','ensaio sobre a cegueira');
+insert into livro values ('122','cem anos de solidao');
+insert into livro values ('123','o general em seu labirinto');
+insert into livro values ('124','a mensagem');
+insert into livro values ('125','o livro do desassossego');
+insert into livro values ('126','dom casmurro');
+insert into livro values ('127','o alianista');
+insert into livro values ('128','a revolucao dos bichos');
+insert into livro values ('129','um pouco de ar por favor');
+insert into autor values ('a01','Agatha Christie','Inglaterra');
+insert into autor values ('a02','Jose Saramago','Portugal');
+insert into autor values ('a03','Francisco Jose Viegas','Portugal');
+insert into autor values ('a04','Machado De Assis','Brasil');
+insert into autor values ('a05','George Orwell','India');
+insert into autoria values('120','a02');
+insert into autoria values('120','a01');
+insert into autoria values('120','a03');
+insert into autoria values('121','a01');
+insert into autoria values('121','a02');
+insert into autoria values('122','a01');
+insert into autoria values('123','a01');
+insert into autoria values('124','a03');
+insert into autoria values('125','a03');
+insert into autoria values('126','a04');
+insert into autoria values('127','a04');
+insert into autoria values('128','a05');
+insert into autoria values('129','a05');
+
+
+c)
+insert into amigos values('100','101');
+insert into amigos values('100','102');
+insert into amigos values('100','103');
+insert into amigos values('100','104');
+insert into amigos values('100','105');
+insert into amigos values('100','106');
+insert into amigos values('100','107');
+insert into amigos values('100','108');
+insert into amigos values('100','109');
+insert into amigos values('100','110');
+insert into amigos values('100','111');
+insert into amigos values('100','112');
+insert into amigos values('100','113');
+insert into amigos values('100','114');
+insert into amigos values('100','115');
+insert into amigos values('100','116');
+insert into amigos values('100','117');
+insert into amigos values('100','118');
+insert into amigos values('100','119');
+insert into amigos values('101','102');
+insert into amigos values('101','103');
+insert into amigos values('101','104');
+insert into amigos values('102','103');
+insert into amigos values('102','104');
+insert into amigos values('102','105');
+insert into amigos values('103','104');
+insert into amigos values('103','105');
+insert into amigos values('103','106');
+insert into amigos values('104','105');
+insert into amigos values('104','106');
+insert into amigos values('104','107');
+insert into amigos values('105','106');
+insert into amigos values('105','107');
+insert into amigos values('105','108');
+insert into amigos values('116','105');
+
+
+d)
+insert into gosta values ('100','120');
+insert into gosta values ('101','121');
+insert into gosta values ('102','120');
+insert into gosta values ('103','122');
+insert into gosta values ('104','123');
+insert into gosta values ('105','124');
+insert into gosta values ('106','125');
+insert into gosta values ('107','126');
+insert into gosta values ('108','127');
+insert into gosta values ('109','128');
+insert into gosta values ('110','129');
+insert into gosta values ('111','125');
+insert into gosta values ('112','123');
+insert into gosta values ('113','120');
+insert into gosta values ('114','129');
+insert into gosta values ('115','122');
+insert into gosta values ('116','127');
+insert into gosta values ('117','123');
+insert into gosta values ('118','124');
+insert into gosta values ('119','121');
+insert into gosta values ('102','121');
+insert into gosta values ('102','122');
+insert into gosta values ('102','123');

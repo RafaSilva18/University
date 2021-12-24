@@ -1,0 +1,87 @@
+--a)
+select idReceita
+from contem natural inner join receita 
+where contem.nomeIngre = 'pato'; 
+
+--b)
+select distinct idReceita
+from contem natural inner join receita
+except
+select distinct idReceita
+from contem natural inner join receita natural inner join ingrediente
+where nomeIngre = 'pato'
+order by idReceita;
+
+--c)
+select username
+from contem natural inner join membro natural inner join autor
+where nomeIngre = 'pato';
+
+--d)
+with n (username) as (
+select username 
+from contem natural inner join membro natural inner join autor 
+where nomeIngre = 'pato') 
+select usernameA
+from amigos natural inner join n
+where usernameB = n.username
+union
+select usernameB
+from amigos natural inner join n
+where usernameA = n.username;
+
+--e)
+select username 
+from avaliacao natural inner join membro natural inner join contem natural inner join ingrediente 
+where gosto >'1' and nomeIngre = 'pato';
+
+--f)
+select username 
+from membro natural inner join autor natural inner join contem natural inner join ingrediente
+where nomeIngre = 'ovo' or nomeIngre = 'amendoa';
+
+--g)
+select username
+from membro natural inner join autor natural inner join ingrediente natural inner join contem 
+where nomeIngre = 'pato' or nomeIngre = 'peru';
+
+--h)
+with n (idReceita, l) as (
+select idReceita,count(url) as l
+from fotografia natural inner join receita natural inner join sobremesa
+group by idReceita)
+select idReceita from (select max(l) as l from n) as r natural inner join n;
+
+--i)
+select username
+from contem natural inner join receita natural inner join avaliacao natural inner join ingrediente natural inner join membro natural inner join entrada
+where nomeIngre = 'cogumelo' and  gosto = '3'
+except 
+select username
+from contem natural inner join receita natural inner join avaliacao natural inner join ingrediente natural inner join membro natural inner join entrada
+where nomeIngre = 'cogumelo' and  gosto = '2'
+except
+select username
+from contem natural inner join receita natural inner join avaliacao natural inner join ingrediente natural inner join membro natural inner join entrada
+where nomeIngre = 'cogumelo' and  gosto = '1';
+
+--j)
+select username,count(gosto)
+from membro natural inner join avaliacao 
+where gosto = '3'
+group by username;
+
+--k)
+select nomeReceita,count(gosto) as nº3estr,custo
+from avaliacao natural inner join receita natural inner join contem natural inner join ingrediente natural inner join sobremesa
+where gosto = '3' and nomeIngre = 'chocolate'
+group by custo,nomeReceita;
+
+--l)
+with q (idReceita,l) as (select idReceita,count(gosto) 
+from  avaliacao natural inner join receita
+where gosto>='2' and nomeReceita = 'mousse de chocolate' group by idReceita)
+select count(l)  
+from q
+
+--m)

@@ -1,0 +1,59 @@
+Enunciado do 2º Trabalho Prático
+Redes de Computadores - 2020/21 (semestre par)
+Trabalho Final
+
+
+Problema
+
+A empresa UltraSecure, Lda. pretende utilizar um sistema de comunicação para os membros da sua equipa, mas não pode confiar em software de terceiros. Assim sendo, precisa de implementar “in-house” um software deste tipo, garantindo que não há possibilidade de falhas de segurança nesta aplicação.
+
+
+Para ajudar a UltraSecure na implementação deste software, deve implementar as seguintes componentes:
+
+
+Sistema de “chat”:
+
+O sistema de chat funciona num paradigma cliente/servidor, podendo os clientes comunicar uns com os outros nos seguintes termos:
+
+Comunicação em tempo real 1-1: um cliente envia mensagens para outro cliente, que as recebe em tempo real;
+
+Comunicação em tempo real 1-todos: um cliente envia mensagens para um canal comum, e todos os outros clientes recebem as mensagens em tempo real;
+
+Comunicação em diferido 1-1: um cliente envia mensagens para um outro cliente que não está online, e este receberá as mensagens mais tarde, quando se ligar ao servidor
+
+
+Sistema de transferência de ficheiros:
+   
+
+Aliado ao sistema de chat, podem existir “mensagens especiais” que não representam texto, mas dados em formato binário que constituem ficheiros a ser transmitidos entre clientes. Tirando partido da infraestrutura de chat, podem ser transmitidos ficheiros nos três métodos referidos anteriormente: 1-1 e 1-todos em tempo real e 1-1 em diferido.
+
+
+Sistema de jogos com um jogo de exemplo:
+
+Xadrez;
+
+Jogo do galo;
+
+Batalha naval.
+
+
+
+Implementação
+
+Cada grupo de alunos deve especificar um protocolo de comunicação cliente-servidor para cada uma das componentes e implementar o servidor e o cliente correspondente. Poderão implementar o sistema parcial ou totalmente, sendo a nota atribuída consoante o nível de implementação do trabalho entregue.
+
+
+Entrega
+
+O trabalho, realizado em grupos de 2 ou 3 elementos, deve ser entregue até às 23:59h do dia 30/06/2021. A entrega deve ser realizada através do moodle, pelo aluno com o menor dos números de aluno do grupo, consistindo num ficheiro comprimido (.zip ou .tar.gz) contendo uma directoria src/ com o código-fonte do trabalho e um ficheiro .pdf com o relatório de implementação.
+
+
+Alguns dos trabalhos serão seleccionados para discussão, que contará também para a nota a atribuir.
+
+
+Dúvidas
+
+As dúvidas de interpretação ou outros esclarecimentos devem ser feitos através do canal próprio do Discord, de forma a que todos os grupos possam ter acesso às respostas. Dúvidas colocadas por outros canais serão transcritas para o referido canal.
+
+
+Dúvidas técnicas e de implementação podem ser colocadas no referido canal do Discord ou colocadas durante as aulas, ou em horários atempadamente combinados com o docente.

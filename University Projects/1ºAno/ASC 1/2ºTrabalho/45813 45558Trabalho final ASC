@@ -1,0 +1,431 @@
+.data
+$pilha: .asciiz  "pilha: \n" #declara variavel pilha como 'pilha: \n'
+$Adesligar: .asciiz "\nBye!!\nThanks for using our program!\n"
+$cabecalho: .asciiz "* Calculadora em notação polaca inversa   * \n * Autores: Pedro Anjos (45558), Rafael Silva (45831)* \n * ASC1 2019/2020 *\n type help for available commands\n\n"
+$espacos: .asciiz "\n\n"
+$espaco: .asciiz "\n"
+$help: .asciiz "Operador** Descrição** \n       (+)       Adição (operador binário) \n       (-)       Subratração (Operador Binário) \n       (*)       Multiplicação (Operador Binário) \n       (/)       Divisão (Operador Binário) \n       (neg)     Calcula o simétrico (Operador Unário) \n       (swap)    Troca posição dos dois operandos do topo da pilha \n       (dup)     Duplica(clone) o operando do topo da pilha \n       (drop)    Elimina um operando do topo da pilha \n       (clear)   Limpa toda a pilha (Pilha Vazia) \n       (off)     Desliga a calculadora (Termina o programa) \n""
+
+
+S: .space 200
+
+.text
+li $t7,0
+li $v0, 4
+la $a0, $cabecalho
+syscall
+
+
+Input:
+la $a0,S
+li $a1,200
+li $v0,8
+syscall
+j ciclo
+nop
+
+imprimir_pilha:
+
+lw $a0,0($sp)
+beq $a0,0x00,saida    #Se for um numero 0 não imprime mais nada
+nop
+li $v0,1   #Coloca o tamanho da word onde vai fazer o load para o processador / Imprime o inteiro
+syscall
+li $v0,4   #Coloca o tamanho da word onde vai fazer o load para o processador / Imprime a word
+la $a0,$espaco
+syscall
+
+#------------------------Iteração manual 1
+ 
+lw $a0,4($sp)         #Imprime a proxima instrução do topo da pilha
+beq $a0,0x00,saida
+nop
+li $v0,1        # Imprime a0
+syscall
+li $v0,4         #Imprime a word /n
+la $a0,$espaco
+syscall
+
+#---------------------- Iteração manual2
+
+lw $a0,8($sp)       
+beq $a0,0x00,saida
+nop
+li $v0,1
+syscall
+li $v0,4
+la $a0,$espaco
+syscall
+
+lw $a0,12($sp)
+beq $a0,0x00,saida
+nop
+li $v0,1
+syscall
+li $v0,4
+la $a0,$espaco
+syscall
+
+lw $a0,16($sp)
+beq $a0,0x00,saida
+nop
+li $v0,1
+syscall
+li $v0,4
+la $a0,$espaco
+syscall
+
+lw $a0,20($sp)
+beq $a0,0x00,saida
+nop
+li $v0,1
+syscall
+li $v0,4
+la $a0,$espaco
+syscall
+lw $a0,24($sp)        #Aparecem os 10 primeiros itens da pilha
+beq $a0,0x00,saida
+nop
+li $v0,1
+syscall
+
+
+saida:
+
+jr $ra
+nop
+
+multii:           #Para os numeros maiores que 9
+
+li $t6,10         #Numero recebe valor 10
+mult $t7,$t6     #t7 valor inicial 0
+mflo $t7        
+add $t7,$t7,$t0  #Recebe o numero da instrução
+j ciclo
+nop
+
+ciclo:    #t1=2 #t0=1
+
+lb $t0,0($a0)
+addi $a0,$a0,1
+beq $t0,0x0a, continua
+nop
+beq $t0, 0x20 ,continua      
+nop
+blt $t0, 0x30, operacao    #Maior que 0
+nop
+bgt $t0, 0x3a, operacao    #Menor que 0
+nop
+
+
+encontra_num:              #por exemplo 3 neg 4 + sem este encontra numero ele não iria voltar a colocá-lo
+j multii
+addi $t0,$t0,-48      #Transforma num ascii em decimal
+
+
+continua:             #Coloca na linha de baixo/ Não quero que multiplique caso seja um espaço ou string
+addi $sp,$sp,-4
+sw $t7,0($sp)
+li $t7,0
+j ciclo
+nop 
+
+
+p_swap:
+lb $t0,0($a0)
+bne $t0,0x77,operacao2   #Verifica se for um w
+nop
+addi $a0,$a0,1
+lb $t0,0($a0)
+bne $t0,0x61,operacao2     #Verifica se for um a
+addi $a0,$a0,1
+lb $t0,0($a0)
+beq $t0,0x70,swap          #Se for um p vai pra função swap
+addi $a0,$a0,1
+
+
+p_neg:
+
+lb $t0,0($a0)
+bne $t0,0x65,operacao2      #Verifica se for um e
+nop
+addi $a0,$a0,1
+lb $t0,0($a0)
+beq $t0,0x67,negacao        #Se for um g vai pra função neg
+addi $a0,$a0,1
+
+
+pd:               #Diferencia o dup do drop
+
+lb $t0,0($a0)
+addi $a0,$a0,1
+beq $t0,0x75,p_dup     #Se for um u vai para a função p_dup
+nop
+beq $t0,0x72,p_drop    #Se for um r vai para a função drop
+nop
+
+
+p_dup:
+
+lb $t0,0($a0)
+beq $t0,0x70,dup      #Se for um p vai para a função dup
+addi $a0,$a0,1
+
+
+
+p_drop:
+
+lb $t0,0($a0)
+bne $t0,0x6f,operacao2    #Verifica se é um o
+nop
+addi $a0,$a0,1
+lb $t0,0($a0)
+beq $t0,0x70,drop      #Se for um p avança para a função drop
+addi $a0,$a0,1
+
+
+
+p_clear:
+
+lb $t0,0($a0)
+bne $t0,0x6c,operacao2   #Verifica se é um l
+nop
+addi $a0,$a0,1
+lb $t0,0($a0)
+bne $t0,0x65,operacao2    #Verifica se é um e
+nop
+addi $a0,$a0,1
+lb $t0,0($a0)
+bne $t0,0x61,operacao2     #Verifica se é um a
+nop
+addi $a0,$a0,1
+nop
+lb $t0,0($a0)
+beq $t0,0x72,clear     #Se for um r avança para a função clear
+addi $a0,$a0,1
+
+
+
+p_help:
+
+lb $t0,0($a0)
+bne $t0,0x65,operacao2  #Verifica se é um e
+nop
+addi $a0,$a0,1
+lb $t0,0($a0)
+bne $t0,0x6c,operacao2   #Verifica se é um l
+nop
+addi $a0,$a0,1
+lb $t0,0($a0)
+beq $t0,0x70,help   #Se for um p avança para a função help
+nop
+
+
+
+p_off:
+
+lb $t0,0($a0)
+bne $t0,0x66,operacao2     #verifica se é um f
+nop
+addi $a0,$a0,1
+lb $t0,0($a0)
+beq $t0,0x66,off   #Se for um f avança para a função off
+nop
+
+
+
+operacao:
+
+addi $t3,$zero,104
+beq $t0,$t3,p_help
+nop
+addi $t3,$zero,43
+beq $t0 ,$t3,soma
+nop
+addi $t3,$zero,45
+beq $t0,$t3,subtracao
+nop
+addi $t3,$zero,42
+beq $t0,$t3,multi
+nop
+addi $t3,$zero,47
+beq $t0,$t3,divi
+nop
+addi $t3,$zero,115
+beq $t0,$t3,p_swap
+nop
+addi $t3,$zero,110
+beq $t0,$t3,p_neg
+nop
+addi $t3,$zero,100
+beq $t0,$t3, pd
+nop
+addi $t3,$zero,99
+beq $t0,$t3,p_clear
+nop 
+addi $t3, $zero,111
+beq $t0,$t3,p_off
+nop
+
+operacao2:
+
+lb $t0,0($a0)
+addi $a0,$a0,1
+beq $t0,0x20,operacao2
+nop
+addi $t3,$zero,43
+beq $t0 ,$t3,soma
+nop
+addi $t3,$zero,45
+beq $t0,$t3,subtracao
+nop
+addi $t3,$zero,42
+beq $t0,$t3,multi
+nop
+addi $t3,$zero,47
+beq $t0,$t3,divi
+nop
+addi $t3,$zero,115
+beq $t0,$t3,p_swap
+nop
+addi $t3,$zero,110
+beq $t0,$t3,p_neg
+nop
+addi $t3,$zero,100
+beq $t0,$t3,pd
+nop
+addi $t3,$zero,99
+beq $t0,$t3,p_clear
+nop 
+bgt $t0, 0x2f, encontra_num
+nop
+li $v0,4                          #comando de impressão de string na tela
+la $a0, $pilha                    #coloca o texto pilha para ser impresso
+syscall
+jal imprimir_pilha
+nop
+li $v0,4
+la $a0,$espacos
+syscall
+j Input
+nop 
+
+
+soma:
+
+lw $a2, 0 ($sp)            
+lw $a3, 4 ($sp)
+addi $sp,$sp,8
+add $v0, $a2, $a3
+addi $sp,$sp,-4
+sw $v0, 0 ($sp)
+j operacao2
+nop
+
+
+subtracao:
+
+lw $a2, 0 ($sp)
+lw $a3, 4 ($sp)
+addi $sp,$sp,8
+sub $v0, $a3, $a2
+addi $sp,$sp,-4
+sw $v0, 0 ($sp)
+j  operacao2
+nop
+
+
+multi:
+
+lw $a2, 0 ($sp)
+lw $a3, 4 ($sp)
+addi $sp,$sp,8
+mult $a2, $a3
+mflo $v0
+addi $sp,$sp,-4
+sw $v0, 0 ($sp)
+j operacao2
+nop
+
+
+divi:
+
+lw $a2, 0 ($sp)
+lw $a3, 4 ($sp)
+addi $sp,$sp,8
+div $a3, $a2
+mflo $v0
+addi $sp,$sp,-4
+sw $v0, 0($sp)
+j operacao2
+nop
+
+
+help:
+
+li $v0,4
+la $a0,$help
+syscall
+j operacao2
+nop
+
+
+negacao:
+
+lw $a2, 0 ($sp)
+addi $sp,$sp,4
+sub $v0, $zero, $a2
+addi $sp,$sp,-4
+sw $v0, 0($sp)
+j operacao2
+nop
+
+
+swap:
+
+lw $a2, 0 ($sp)
+lw $a3, 4 ($sp)
+addi $sp,$sp,8
+addi $sp,$sp,-8
+sw $a2, 4 ($sp)
+sw $a3, 0 ($sp)
+j operacao2
+nop
+
+
+dup:
+
+lw $a2, 0 ( $sp)
+addi $sp,$sp,4
+addi $sp,$sp,-8
+sw $a2, 0 ($sp)
+sw $a2, 4 ($sp)
+j  operacao2
+nop
+
+
+drop:
+
+lw $a2, 0 ($sp)
+addi $sp, $sp, 4
+j  operacao2
+nop
+
+clear:
+
+li $sp,0x7fffeffc    #numero original
+j  operacao2
+nop
+j Input
+nop
+
+#(colacar uma variavel que vai aumentando sempre que é algo colacado na pilha ou tirado), sumar a variavel ao sp 
+
+
+off:
+
+li $v0,4 #comando de impressão de string na tela
+la $a0, $Adesligar #coloca o texto pilha para ser impresso
+syscall
+li $v0,10
+syscall
